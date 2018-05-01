@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dataSource name="localhost">
-  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.8">
+<dataSource name="online_shop@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.7">
     <root id="1">
-      <ServerVersion>5.7.20</ServerVersion>
       <DefaultCasing>lower/lower</DefaultCasing>
     </root>
-    <schema id="2" parent="1" name="db">
+    <schema id="2" parent="1" name="information_schema">
+      <Collation>utf8_general_ci</Collation>
+    </schema>
+    <schema id="3" parent="1" name="logistics">
+      <Collation>utf8_general_ci</Collation>
+    </schema>
+    <schema id="4" parent="1" name="mysql">
+      <Collation>utf8_general_ci</Collation>
+    </schema>
+    <schema id="5" parent="1" name="online_shop">
       <Current>1</Current>
       <Visible>1</Visible>
       <Collation>utf8_general_ci</Collation>
     </schema>
-    <schema id="3" parent="1" name="dba">
+    <schema id="6" parent="1" name="performance_schema">
       <Collation>utf8_general_ci</Collation>
     </schema>
-    <schema id="4" parent="1" name="information_schema">
+    <schema id="7" parent="1" name="rppba">
       <Collation>utf8_general_ci</Collation>
     </schema>
-    <schema id="5" parent="1" name="mysql">
+    <schema id="8" parent="1" name="sys">
       <Collation>utf8_general_ci</Collation>
     </schema>
-    <schema id="6" parent="1" name="onlineshopdb">
-      <Collation>utf8_general_ci</Collation>
-    </schema>
-    <schema id="7" parent="1" name="performance_schema">
-      <Collation>utf8_general_ci</Collation>
-    </schema>
-    <schema id="8" parent="1" name="personal_information">
-      <Collation>utf8_general_ci</Collation>
-    </schema>
-    <schema id="9" parent="1" name="sys">
+    <schema id="9" parent="1" name="traine">
       <Collation>utf8_general_ci</Collation>
     </schema>
     <collation id="10" parent="1" name="armscii8_bin">
@@ -919,152 +918,184 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="232" parent="2" name="fullinfo">
+    <table id="232" parent="5" name="admin">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="233" parent="2" name="product">
+    <table id="233" parent="5" name="authorization">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="234" parent="2" name="reg">
+    <table id="234" parent="5" name="clients">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="235" parent="2" name="user_account">
+    <table id="235" parent="5" name="orders">
       <Engine>InnoDB</Engine>
     </table>
-    <column id="236" parent="232" name="id">
+    <table id="236" parent="5" name="products">
+      <Engine>InnoDB</Engine>
+    </table>
+    <column id="237" parent="232" name="login">
       <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>varchar(45)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="237" parent="232" name="Name">
+    <column id="238" parent="232" name="password">
       <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="238" parent="232" name="Surname">
+    <key id="239" parent="232" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>login</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="240" parent="233" name="login">
+      <Position>1</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="241" parent="233" name="password">
+      <Position>2</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="242" parent="233" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>login</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="243" parent="234" name="id_client">
+      <Position>1</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="244" parent="234" name="name">
+      <Position>2</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="245" parent="234" name="surname">
       <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="239" parent="232" name="Collection">
+    <column id="246" parent="234" name="email">
       <Position>4</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="240" parent="232" name="Date">
+    <column id="247" parent="234" name="telephone">
       <Position>5</Position>
-      <DataType>time|0s</DataType>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="241" parent="232" name="Name">
-      <ColNames>Name</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="242" parent="232" name="Surname">
-      <ColNames>Surname</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="243" parent="232" name="Collection">
-      <ColNames>Collection</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="244" parent="232" name="Date">
-      <ColNames>Date</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <key id="245" parent="232" name="PRIMARY">
+    <key id="248" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
+      <ColNames>id_client</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="246" parent="232" name="Name">
-      <ColNames>Name</ColNames>
-      <UnderlyingIndexName>Name</UnderlyingIndexName>
-    </key>
-    <key id="247" parent="232" name="Surname">
-      <ColNames>Surname</ColNames>
-      <UnderlyingIndexName>Surname</UnderlyingIndexName>
-    </key>
-    <key id="248" parent="232" name="Collection">
-      <ColNames>Collection</ColNames>
-      <UnderlyingIndexName>Collection</UnderlyingIndexName>
-    </key>
-    <key id="249" parent="232" name="Date">
-      <ColNames>Date</ColNames>
-      <UnderlyingIndexName>Date</UnderlyingIndexName>
-    </key>
-    <column id="250" parent="233" name="CODE">
+    <column id="249" parent="235" name="id_order">
       <Position>1</Position>
-      <DataType>varchar(20)|0s</DataType>
+      <DataType>int(3)|0</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="251" parent="233" name="NAME">
+    <column id="250" parent="235" name="id_product">
       <Position>2</Position>
-      <DataType>varchar(128)|0s</DataType>
+      <DataType>int(3)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="252" parent="233" name="PRICE">
+    <column id="251" parent="235" name="id_client">
       <Position>3</Position>
-      <DataType>float|0s</DataType>
+      <DataType>int(3)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="253" parent="233" name="PRIMARY">
+    <column id="252" parent="235" name="status">
+      <Position>4</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="253" parent="235" name="id_product">
+      <ColNames>id_product</ColNames>
+    </index>
+    <index id="254" parent="235" name="id_client">
+      <ColNames>id_client</ColNames>
+    </index>
+    <key id="255" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>CODE</ColNames>
+      <ColNames>id_order</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="254" parent="234" name="id">
+    <foreign-key id="256" parent="235" name="orders_ibfk_1">
+      <ColNames>id_product</ColNames>
+      <RefSchemaName>online_shop</RefSchemaName>
+      <RefTableName>products</RefTableName>
+      <RefColNames>id_product</RefColNames>
+    </foreign-key>
+    <foreign-key id="257" parent="235" name="orders_ibfk_2">
+      <ColNames>id_client</ColNames>
+      <RefSchemaName>online_shop</RefSchemaName>
+      <RefTableName>clients</RefTableName>
+      <RefColNames>id_client</RefColNames>
+    </foreign-key>
+    <column id="258" parent="236" name="id_product">
       <Position>1</Position>
-      <DataType>time|0s</DataType>
+      <DataType>int(3)|0</DataType>
       <NotNull>1</NotNull>
-      <DefaultExpression>&apos;00:00:00&apos;</DefaultExpression>
+      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="255" parent="234" name="name">
+    <column id="259" parent="236" name="type">
       <Position>2</Position>
-      <DataType>char(15)|0s</DataType>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="256" parent="234" name="pass">
+    <column id="260" parent="236" name="brand">
       <Position>3</Position>
-      <DataType>char(15)|0s</DataType>
+      <DataType>varchar(20)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="257" parent="234" name="PRIMARY">
+    <column id="261" parent="236" name="name_pr">
+      <Position>4</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="262" parent="236" name="quantity">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="263" parent="236" name="rating">
+      <Position>6</Position>
+      <DataType>int(2)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="264" parent="236" name="cost">
+      <Position>7</Position>
+      <DataType>float|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="265" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="258" parent="235" name="USER_NAME">
-      <Position>1</Position>
-      <DataType>varchar(30)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="259" parent="235" name="GENDER">
-      <Position>2</Position>
-      <DataType>varchar(1)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="260" parent="235" name="PASSWORD">
-      <Position>3</Position>
-      <DataType>varchar(30)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="261" parent="235" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>USER_NAME</ColNames>
+      <ColNames>id_product</ColNames>
       <Primary>1</Primary>
     </key>
   </database-model>

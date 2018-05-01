@@ -21,15 +21,15 @@
 <p style="color: red;">${errorString}</p>
 
 
-<form method="POST" action="${pageContext.request.contextPath}/login">
+<form method="POST" action="${pageContext.request.contextPath}/login" var="clients">
     <table border="0">
         <tr>
             <td>User Name</td>
-            <td><input type="text" name="userName" value= "${user.userName}" /> </td>
+            <td><input type="text" name="userName" value= "${clients.userName}" /> </td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="text" name="password" value= "${user.password}" /> </td>
+            <td><input type="text" name="password" value= "${clients.password}" /> </td>
         </tr>
         <tr>
             <td>Remember me</td>

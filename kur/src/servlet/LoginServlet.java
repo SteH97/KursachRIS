@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Admin;
 import beans.UserAccount;
 import utils.DBUtils;
 import utils.MyUtils;
@@ -50,28 +51,34 @@ public class LoginServlet extends HttpServlet {
         boolean remember = "Y".equals(rememberMeStr);
 
         UserAccount user = null;
+        Admin admin = null;
         boolean hasError = false;
         String errorString = null;
 
-        if (userName == null || password == null || userName.length() == 0 || password.length() == 0) {
+        if (userName.equals("") || password.equals("") || userName.length() == 0 || password.length() == 0) {
             hasError = true;
             errorString = "Required username and password!";
         } else {
             Connection conn = MyUtils.getStoredConnection(request);
             try {
-                // Найти user в DB.
-                user = DBUtils.findUser(conn, userName, password);
 
-                if (user == null) {
+                // Найти user или admin в DB.
+                user = DBUtils.findUser(conn, userName, password);
+                admin = DBUtils.findAdmin(conn,userName,password);
+//                System.out.println(admin.getLogin() + " " + admin.getPassword());
+
+                if (user == null && admin == null) {
                     hasError = true;
                     errorString = "User Name or password invalid";
                 }
+
             } catch (SQLException e) {
                 e.printStackTrace();
                 hasError = true;
                 errorString = e.getMessage();
             }
         }
+
         // В случае, если есть ошибка,
         // forward (перенаправить) к /WEB-INF/views/login.jsp
         if (hasError) {
@@ -89,24 +96,47 @@ public class LoginServlet extends HttpServlet {
 
             dispatcher.forward(request, response);
         }
+
         // В случае, если нет ошибки.
         // Сохранить информацию пользователя в Session.
         // И перенаправить к странице userInfo.
         else {
-            HttpSession session = request.getSession();
-            MyUtils.storeLoginedUser(session, user);
+            if(admin != null) {
 
-            // Если пользователь выбирает функцию "Remember me".
-            if (remember) {
-                MyUtils.storeUserCookie(response, user);
-            }
-            // Наоборот, удалить Cookie
-            else {
-                MyUtils.deleteUserCookie(response);
-            }
+                HttpSession session = request.getSession();
+                MyUtils.storeLoginedAdmin(session, admin);
 
-            // Redirect (Перенаправить) на страницу /userInfo.
-            response.sendRedirect(request.getContextPath() + "/userInfo");
+                // Если пользователь выбирает функцию "Remember me".
+                if (remember) {
+                    MyUtils.storeUserCookie(response, admin);
+                }
+
+                // Наоборот, удалить Cookie
+                else {
+                    MyUtils.deleteUserCookie(response);
+                }
+
+                // Redirect (Перенаправить) на страницу /userInfo.
+                response.sendRedirect(request.getContextPath() + "/adminServlet");
+
+            } else if(user != null) {
+
+                HttpSession session = request.getSession();
+                MyUtils.storeLoginedUser(session, user);
+
+                // Если пользователь выбирает функцию "Remember me".
+                if (remember) {
+                    MyUtils.storeUserCookie(response, user);
+                }
+                // Наоборот, удалить Cookie
+                else {
+                    MyUtils.deleteUserCookie(response);
+                }
+
+                // Redirect (Перенаправить) на страницу /userInfo.
+                response.sendRedirect(request.getContextPath() + "/userInfo");
+
+            }
         }
     }
 

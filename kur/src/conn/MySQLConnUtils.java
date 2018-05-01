@@ -10,9 +10,9 @@ public class MySQLConnUtils {
             throws ClassNotFoundException, SQLException {
         // Примечание: Изменить параметры соединения соответствующе.
         String hostName = "localhost";
-        String dbName = "kurs";
+        String dbName = "online_shop";
         String userName = "root";
-        String password = "root";
+        String password = "sasha";
         return getMySQLConnection(hostName, dbName, userName, password);
     }
 

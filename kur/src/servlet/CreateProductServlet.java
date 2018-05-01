@@ -40,15 +40,21 @@ public class CreateProductServlet extends HttpServlet {
             throws ServletException, IOException {
         Connection conn = MyUtils.getStoredConnection(request);
 
-        String code = (String) request.getParameter("code");
-        String name = (String) request.getParameter("name");
-        String priceStr = (String) request.getParameter("price");
-        float price = 0;
+        float costFl = 0;int quantityInt = 0;
+
+        String type = request.getParameter("type");
+        String brand = request.getParameter("brand");
+        String name_pr = request.getParameter("name_pr");
+        String quantity = request.getParameter("quantity");
+        String cost = request.getParameter("cost");
+
         try {
-            price = Float.parseFloat(priceStr);
+            costFl = Float.parseFloat(cost);
+            quantityInt = Integer.parseInt(quantity);
         } catch (Exception e) {
+            System.out.println("Ошибка в парсе чисел");
         }
-        Product product = new Product(code, name, price);
+        Product product = new Product(type,brand,name_pr,quantityInt,costFl);
 
         String errorString = null;
 
@@ -56,8 +62,8 @@ public class CreateProductServlet extends HttpServlet {
         // Имеет минимум 1 символ.
         String regex = "\\w+";
 
-        if (code == null || !code.matches(regex)) {
-            errorString = "Product Code invalid!";
+        if (type.equals("") || brand.equals("") || name_pr.equals("") || quantity.equals("") || cost.equals("")) {
+            errorString = "Product invalid!";
         }
 
         if (errorString == null) {

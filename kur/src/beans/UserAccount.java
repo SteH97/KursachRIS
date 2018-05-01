@@ -4,7 +4,7 @@ public class UserAccount {
     public static final String GENDER_MALE ="M";
     public static final String GENDER_FEMALE = "F";
 
-    private String userName;
+    private String login;
     private String gender;
     private String password;
 
@@ -13,12 +13,17 @@ public class UserAccount {
 
     }
 
+    public UserAccount(String login,String password){
+        this.login = login;
+        this.password = password;
+    }
+
     public String getUserName() {
-        return userName;
+        return login;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.login = userName;
     }
 
     public String getGender() {
