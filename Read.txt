@@ -1,0 +1,12 @@
+src/beans/Admin
+src/beans/Product
+src/beans/UserAccount
+
+src/servlet/AdminServlet
+src/servlet/CreateProductServlet
+src/servlet/DeleteProductServlet
+src/servlet/EditProductServlet
+src/servlet/ProductListServlet
+src/servlet/LoginServlet
+
+src/utils/DBUtils
