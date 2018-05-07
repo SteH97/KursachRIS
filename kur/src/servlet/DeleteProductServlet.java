@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import beans.Admin;
 import utils.DBUtils;
 import utils.MyUtils;
 
@@ -23,42 +25,66 @@ public class DeleteProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        Connection conn = MyUtils.getStoredConnection(request);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession httpSession = req.getSession();
 
-        String code = (String) request.getParameter("code");
+        Admin admin = MyUtils.getLoginedAdmin(httpSession);
 
+        if(admin == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+        } else if(admin != null) {
+            RequestDispatcher dispatcher //
+                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/deleteProductErrorView.jsp");
+            dispatcher.forward(req, resp);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Connection conn = MyUtils.getStoredConnection(req);
+
+        String id_product = req.getParameter("id_product");
         String errorString = null;
 
-        try {
-            DBUtils.deleteProduct(conn, code);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            errorString = e.getMessage();
+        if(toIntId(id_product)) {
+            try {
+                DBUtils.deleteProduct(conn, id_product);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                errorString = e.getMessage();
+            }
+        } else {
+            errorString = "Некорректный ввод номера";
         }
+
 
         // Если происходит ошибка, forward (перенаправить) к странице оповещающей ошибку.
         if (errorString != null) {
             // Сохранить информацию в request attribute перед тем как forward к views.
-            request.setAttribute("errorString", errorString);
+            req.setAttribute("errorString", errorString);
             //
-            RequestDispatcher dispatcher = request.getServletContext()
+            RequestDispatcher dispatcher = req.getServletContext()
                     .getRequestDispatcher("/WEB-INF/views/deleteProductErrorView.jsp");
-            dispatcher.forward(request, response);
+            dispatcher.forward(req, resp);
         }
         // Если все хорошо.
         // Redirect (перенаправить) к странице со списком продуктов.
         else {
-            response.sendRedirect(request.getContextPath() + "/productList");
+            req.setAttribute("deleteSuccess", "Успешное удаление");
+            RequestDispatcher dispatcher //
+                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/deleteProductErrorView.jsp");
+
+            dispatcher.forward(req, resp);
         }
-
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
+    // Проверка на коррекстность ввода номера
+    private boolean toIntId(String id) {
+        try {
+            Integer.parseInt(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
-
 }

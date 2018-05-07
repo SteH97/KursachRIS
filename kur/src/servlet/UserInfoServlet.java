@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Clients;
 import beans.UserAccount;
+import conn.MySQLConnUtils;
+import utils.DBUtils;
 import utils.MyUtils;
 
 @WebServlet(urlPatterns = { "/userInfo" })
@@ -28,22 +32,23 @@ public class UserInfoServlet extends HttpServlet {
 
         // Проверить, вошел ли пользователь в систему (login) или нет.
         UserAccount loginedUser = MyUtils.getLoginedUser(session);
-
+        Connection conn = MyUtils.getStoredConnection(request);
         // Если еще не вошел в систему (login).
         if (loginedUser == null) {
             // Redirect (Перенаправить) к странице login.
             response.sendRedirect(request.getContextPath() + "/login");
             return;
+        } else if(loginedUser != null) {
+            // Сохранить информацию в request attribute перед тем как forward (перенаправить).
+            request.setAttribute("user", loginedUser);
+            Clients client = DBUtils.queryClient(conn,loginedUser.getUserName());
+            request.setAttribute("client",client);
+            // Если пользователь уже вошел в систему (login), то forward (перенаправить) к странице
+            // /WEB-INF/views/userInfoView.jsp
+            RequestDispatcher dispatcher //
+                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
+            dispatcher.forward(request, response);
         }
-        // Сохранить информацию в request attribute перед тем как forward (перенаправить).
-        request.setAttribute("user", loginedUser);
-
-        // Если пользователь уже вошел в систему (login), то forward (перенаправить) к странице
-        // /WEB-INF/views/userInfoView.jsp
-        RequestDispatcher dispatcher //
-                = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
-        dispatcher.forward(request, response);
-
     }
 
     @Override

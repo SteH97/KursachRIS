@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.Admin;
 import beans.UserAccount;
 
 public class MyUtils {
@@ -35,16 +36,37 @@ public class MyUtils {
         session.setAttribute("loginedUser", loginedUser);
     }
 
+    // Сохранить информацию пользователя, который вошел в систему (login) в Session.
+    public static void storeLoginedAdmin(HttpSession session, Admin loginedAdmin) {
+        // В JSP можно получить доступ через ${loginedUser}
+        session.setAttribute("loginedAdmin", loginedAdmin);
+    }
+
     // Получить информацию пользователя, сохраненная в Session.
     public static UserAccount getLoginedUser(HttpSession session) {
         UserAccount loginedUser = (UserAccount) session.getAttribute("loginedUser");
         return loginedUser;
     }
 
+    // Получить информацию пользователя, сохраненная в Session.
+    public static Admin getLoginedAdmin(HttpSession session) {
+        Admin loginedAdmin = (Admin) session.getAttribute("loginedAdmin");
+        return loginedAdmin;
+    }
+
     // Сохранить информацию пользователя в Cookie.
     public static void storeUserCookie(HttpServletResponse response, UserAccount user) {
         System.out.println("Store user cookie");
         Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, user.getUserName());
+        // 1 день (Конвертированный в секунды)
+        cookieUserName.setMaxAge(24 * 60 * 60);
+        response.addCookie(cookieUserName);
+    }
+
+    // Сохранить информацию администратора в Cookie.
+    public static void storeUserCookie(HttpServletResponse response, Admin admin) {
+        System.out.println("Store user cookie");
+        Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, admin.getLogin());
         // 1 день (Конвертированный в секунды)
         cookieUserName.setMaxAge(24 * 60 * 60);
         response.addCookie(cookieUserName);

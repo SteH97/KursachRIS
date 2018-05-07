@@ -8,11 +8,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Product List</title>
+    <title>Список товаров</title>
 </head>
 <body>
 
@@ -21,32 +22,24 @@
 
 <h3>Product List</h3>
 
-<p style="color: red;">${errorString}</p>
-
 <table border="1" cellpadding="5" cellspacing="1" >
     <tr>
-        <th>Code</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>Тип</th>
+        <th>Бренд</th>
+        <th>Название</th>
+        <th>Рейтинг</th>
+        <th>Цена</th>
     </tr>
-    <c:forEach items="${productList}" var="product" >
+    <c:forEach items="${productList}" var="products" >
         <tr>
-            <td>${product.code}</td>
-            <td>${product.name}</td>
-            <td>${product.price}</td>
-            <td>
-                <a href="editProduct?code=${product.code}">Edit</a>
-            </td>
-            <td>
-                <a href="deleteProduct?code=${product.code}">Delete</a>
-            </td>
+            <td>${products.getType()}</td>
+            <td>${products.getBrand()}</td>
+            <td>${products.getName_pr()}</td>
+            <td>${products.getRating()}</td>
+            <td>${products.getCost()}</td>
         </tr>
     </c:forEach>
 </table>
-
-<a href="createProduct" >Create Product</a>
 
 <jsp:include page="_footer.jsp"></jsp:include>
 

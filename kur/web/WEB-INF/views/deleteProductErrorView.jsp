@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Delete Product</title>
+    <title>Удаление продукта</title>
 </head>
 
 <body>
@@ -23,7 +23,21 @@
 <h3>Delete Product</h3>
 
 <p style="color: red;">${errorString}</p>
-<a href="productList">Product List</a>
+<p style="color: red;">${deleteSuccess}</p>
+<form method="post" action="${pageContext.request.contextPath}/deleteProduct" var="product">
+    <table border="0">
+        <tr>
+            <td>Номер продукта</td>
+            <td><input type="text" name="id_product"/> </td>
+        </tr>
+        <tr>
+            <td colspan ="2">
+                <input type="submit" value= "Submit" />
+                <a href="${pageContext.request.contextPath}/">Cancel</a>
+            </td>
+        </tr>
+    </table>
+</form>
 
 <jsp:include page="_footer.jsp"></jsp:include>
 

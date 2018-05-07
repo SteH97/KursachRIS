@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import beans.Admin;
 import beans.Product;
 import utils.DBUtils;
 import utils.MyUtils;
@@ -27,37 +29,17 @@ public class EditProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Connection conn = MyUtils.getStoredConnection(request);
+        HttpSession httpSession = request.getSession();
 
-        String code = (String) request.getParameter("code");
+        Admin admin = MyUtils.getLoginedAdmin(httpSession);
 
-        Product product = null;
-
-        String errorString = null;
-
-        try {
-            product = DBUtils.findProduct(conn, code);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            errorString = e.getMessage();
+        if(admin == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else if(admin != null) {
+            RequestDispatcher dispatcher = request.getServletContext()
+                    .getRequestDispatcher("/WEB-INF/views/editProductView.jsp");
+            dispatcher.forward(request, response);
         }
-
-        // Ошибки не имеются.
-        // Продукт не существует для редактирования (edit).
-        // Redirect sang trang danh sách sản phẩm.
-        if (errorString != null && product == null) {
-            response.sendRedirect(request.getServletPath() + "/productList");
-            return;
-        }
-
-        // Сохранить информацию в request attribute перед тем как forward к views.
-        request.setAttribute("errorString", errorString);
-        request.setAttribute("product", product);
-
-        RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/WEB-INF/views/editProductView.jsp");
-        dispatcher.forward(request, response);
-
     }
 
     // После того, как пользователь отредактировал информацию продукта и нажал на Submit.
@@ -67,30 +49,26 @@ public class EditProductServlet extends HttpServlet {
             throws ServletException, IOException {
         Connection conn = MyUtils.getStoredConnection(request);
 
-        String code = (String) request.getParameter("code");
-        String name = (String) request.getParameter("name");
-        String priceStr = (String) request.getParameter("price");
-        float price = 0;
-        try {
-            price = Float.parseFloat(priceStr);
-        } catch (Exception e) {
-        }
-        Product product = new Product(code, name, price);
-
         String errorString = null;
 
-        try {
-            DBUtils.updateProduct(conn, product);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            errorString = e.getMessage();
+        String id = request.getParameter("id");
+        String quantity = request.getParameter("quantity");
+        String cost = request.getParameter("cost");
+        System.out.println(id);
+        if(toIntId(id)) {
+            try {
+                DBUtils.updateProduct(conn, id, quantity, cost);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                errorString = e.getMessage();
+            }
+        } else {
+            errorString = "Некорректный ввод номера";
         }
-        // Сохранить информацию в request attribute перед тем как forward к views.
-        request.setAttribute("errorString", errorString);
-        request.setAttribute("product", product);
 
         // Если имеется ошибка, forward к странице edit.
         if (errorString != null) {
+            request.setAttribute("errorString", errorString);
             RequestDispatcher dispatcher = request.getServletContext()
                     .getRequestDispatcher("/WEB-INF/views/editProductView.jsp");
             dispatcher.forward(request, response);
@@ -98,8 +76,21 @@ public class EditProductServlet extends HttpServlet {
         // Если все хорошо.
         // Redirect к странице со списком продуктов.
         else {
-            response.sendRedirect(request.getContextPath() + "/productList");
+            request.setAttribute("updateSuccess", "Успешное редактирование");
+            RequestDispatcher dispatcher //
+                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/editProductView.jsp");
+
+            dispatcher.forward(request, response);
         }
     }
 
+    // Проверка на коррекстность ввода номера
+    private boolean toIntId(String id) {
+        try {
+            Integer.parseInt(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

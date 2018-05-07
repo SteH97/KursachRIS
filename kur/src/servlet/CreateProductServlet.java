@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import beans.Admin;
 import beans.Product;
 import utils.DBUtils;
 import utils.MyUtils;
@@ -27,10 +29,18 @@ public class CreateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/WEB-INF/views/createProductView.jsp");
-        dispatcher.forward(request, response);
+        System.out.println("Error1");
+        HttpSession httpSession = request.getSession();
+        System.out.println("Error2");
+        Admin admin = MyUtils.getLoginedAdmin(httpSession);
+        System.out.println("Error3");
+        if(admin == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else if(admin != null) {
+            RequestDispatcher dispatcher = request.getServletContext()
+                    .getRequestDispatcher("/WEB-INF/views/createProductView.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     // Когда пользователь вводит информацию продукта, и нажимает Submit.
@@ -40,24 +50,26 @@ public class CreateProductServlet extends HttpServlet {
             throws ServletException, IOException {
         Connection conn = MyUtils.getStoredConnection(request);
 
-        String code = (String) request.getParameter("code");
-        String name = (String) request.getParameter("name");
-        String priceStr = (String) request.getParameter("price");
-        float price = 0;
+        float costFl = 0;int quantityInt = 0;
+
+        String type = request.getParameter("type");
+        String brand = request.getParameter("brand");
+        String name_pr = request.getParameter("name_pr");
+        String quantity = request.getParameter("quantity");
+        String cost = request.getParameter("cost");
+
         try {
-            price = Float.parseFloat(priceStr);
+            costFl = Float.parseFloat(cost);
+            quantityInt = Integer.parseInt(quantity);
         } catch (Exception e) {
+            System.out.println("Ошибка в парсе чисел");
         }
-        Product product = new Product(code, name, price);
+        Product product = new Product(type,brand,name_pr,quantityInt,costFl);
 
         String errorString = null;
 
-        // Кодом продукта является строка [a-zA-Z_0-9]
-        // Имеет минимум 1 символ.
-        String regex = "\\w+";
-
-        if (code == null || !code.matches(regex)) {
-            errorString = "Product Code invalid!";
+        if (type.equals("") || brand.equals("") || name_pr.equals("") || quantity.equals("") || cost.equals("")) {
+            errorString = "Product invalid!";
         }
 
         if (errorString == null) {
