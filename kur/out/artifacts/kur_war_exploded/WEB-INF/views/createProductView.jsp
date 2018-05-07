@@ -35,7 +35,7 @@
             <td><input type="text" name="brand"/></td>
         </tr>
         <tr>
-            <td>Имя</td>
+            <td>Название</td>
             <td><input type="text" name="name_pr"/></td>
         </tr>
         <tr>

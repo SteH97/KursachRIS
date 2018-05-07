@@ -88,7 +88,6 @@ public class LoginServlet extends HttpServlet {
 
             // Сохранить информацию в request attribute перед forward.
             request.setAttribute("errorString", errorString);
-            request.setAttribute("user", user);
 
             // Forward (перенаправить) к странице /WEB-INF/views/login.jsp
             RequestDispatcher dispatcher //

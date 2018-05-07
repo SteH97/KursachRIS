@@ -18,12 +18,24 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 
-<h3>Hello: ${user}</h3>
+<div>
+    <label>Здравствуйте</label>
+    <p> ${user.getUserName()}</p>
+    <label>Имя</label>
+    <p>${client.getName()}</p>
+    <label>Фамилия</label>
+    <p>${client.getSurname()}</p>
+    <label>Почта</label>
+    <p>${client.getEmail()}</p>
+    <label>Телефон</label>
+    <p>${client.getTelephone()}</p>
+</div>
 
-User Name: <b>${user}</b>
-<br />
-Gender: ${user.gender } <br />
+<%--
+<h3>Hello: ${user.getUserName()}</h3>
 
+User Name: <b>${user.getUserName()}</b>
+--%>
 <jsp:include page="_footer.jsp"></jsp:include>
 
 </body>

@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import beans.Admin;
 import beans.Product;
 import utils.DBUtils;
 import utils.MyUtils;
@@ -27,9 +29,17 @@ public class EditProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/WEB-INF/views/editProductView.jsp");
-        dispatcher.forward(request, response);
+        HttpSession httpSession = request.getSession();
+
+        Admin admin = MyUtils.getLoginedAdmin(httpSession);
+
+        if(admin == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else if(admin != null) {
+            RequestDispatcher dispatcher = request.getServletContext()
+                    .getRequestDispatcher("/WEB-INF/views/editProductView.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     // После того, как пользователь отредактировал информацию продукта и нажал на Submit.

@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import beans.Admin;
 import beans.Product;
 import utils.DBUtils;
 import utils.MyUtils;
@@ -27,10 +29,18 @@ public class CreateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/WEB-INF/views/createProductView.jsp");
-        dispatcher.forward(request, response);
+        System.out.println("Error1");
+        HttpSession httpSession = request.getSession();
+        System.out.println("Error2");
+        Admin admin = MyUtils.getLoginedAdmin(httpSession);
+        System.out.println("Error3");
+        if(admin == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else if(admin != null) {
+            RequestDispatcher dispatcher = request.getServletContext()
+                    .getRequestDispatcher("/WEB-INF/views/createProductView.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     // Когда пользователь вводит информацию продукта, и нажимает Submit.
@@ -57,10 +67,6 @@ public class CreateProductServlet extends HttpServlet {
         Product product = new Product(type,brand,name_pr,quantityInt,costFl);
 
         String errorString = null;
-
-        // Кодом продукта является строка [a-zA-Z_0-9]
-        // Имеет минимум 1 символ.
-        String regex = "\\w+";
 
         if (type.equals("") || brand.equals("") || name_pr.equals("") || quantity.equals("") || cost.equals("")) {
             errorString = "Product invalid!";

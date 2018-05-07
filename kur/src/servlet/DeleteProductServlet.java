@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import beans.Admin;
 import utils.DBUtils;
 import utils.MyUtils;
 
@@ -24,10 +26,17 @@ public class DeleteProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher //
-                = this.getServletContext().getRequestDispatcher("/WEB-INF/views/deleteProductErrorView.jsp");
+        HttpSession httpSession = req.getSession();
 
-        dispatcher.forward(req, resp);
+        Admin admin = MyUtils.getLoginedAdmin(httpSession);
+
+        if(admin == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+        } else if(admin != null) {
+            RequestDispatcher dispatcher //
+                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/deleteProductErrorView.jsp");
+            dispatcher.forward(req, resp);
+        }
     }
 
     @Override

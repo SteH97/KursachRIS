@@ -32,7 +32,7 @@
         <th>Рейтинг</th>
         <th>Цена</th>
     </tr>
-    <c:forEach items="${productList}" var="products" >
+    <c:forEach items="${productListAdmin}" var="products" >
         <tr>
             <td>${products.getId_product()}</td>
             <td>${products.getType()}</td>

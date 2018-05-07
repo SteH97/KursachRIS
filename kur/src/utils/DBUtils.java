@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import beans.Admin;
+import beans.Clients;
 import beans.Product;
 import beans.UserAccount;
 
@@ -96,7 +97,7 @@ public class DBUtils {
         return list;
     }
 
-    // Поиск продукта по номеру //
+    // Поиск продукта по номеру
     public static Product findProduct(Connection conn, String id_product) throws SQLException {
         String sql = "SELECT quantity,cost FROM products WHERE id_product = " + "'" + id_product + "'";
         PreparedStatement pstm = conn.prepareStatement(sql);
@@ -110,7 +111,7 @@ public class DBUtils {
         return null;
     }
 
-    // Редактирование продукта //
+    // Редактирование продукта
     public static void updateProduct(Connection conn,String id_product,String quantity,String cost) throws SQLException {
         try {
             String sql = "UPDATE products SET quantity = " + quantity + " ,cost = " + cost + " WHERE id_product = " + id_product;
@@ -122,7 +123,7 @@ public class DBUtils {
         }
     }
 
-    // Добавление продукта // Работает
+    // Добавление продукта
     public static void insertProduct(Connection conn, Product product) throws SQLException {
         String sql = "INSERT INTO products (type, brand, name_pr, quantity,cost) VALUES (?,?,?,?,?)";
 
@@ -136,7 +137,7 @@ public class DBUtils {
         pstm.executeUpdate();
     }
 
-    // Удаление продукта // Работает
+    // Удаление продукта
     public static void deleteProduct(Connection conn, String id_product) throws SQLException {
         try {
             String sql = "DELETE FROM products WHERE id_product = " + "'" + id_product + "'";
@@ -147,4 +148,24 @@ public class DBUtils {
         }
     }
 
+    public static Clients queryClient(Connection connection,String login){
+        String name = "",surname = "",email = "",telephone = "";
+        try {
+            String sqlQueryCleint = "SELECT name,surname,email,telephone FROM clients WHERE login = " + "'" + login + "'";
+            PreparedStatement pstm = connection.prepareStatement(sqlQueryCleint);
+            ResultSet resultSet = pstm.executeQuery();
+
+            while (resultSet.next()){
+                name = resultSet.getString("name");
+                surname = resultSet.getString("surname");
+                email = resultSet.getString("email");
+                telephone = resultSet.getString("telephone");
+            }
+
+            return new Clients(name,surname,email,telephone);
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        }
+    }
 }
