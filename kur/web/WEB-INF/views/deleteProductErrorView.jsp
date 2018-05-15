@@ -33,7 +33,7 @@
         <tr>
             <td colspan ="2">
                 <input type="submit" value= "Submit" />
-                <a href="${pageContext.request.contextPath}/">Cancel</a>
+                <a href="${pageContext.request.contextPath}/adminServlet">Cancel</a>
             </td>
         </tr>
     </table>

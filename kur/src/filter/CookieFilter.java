@@ -56,7 +56,7 @@ public class CookieFilter implements Filter {
         if (checked == null && conn != null) {
             String userName = MyUtils.getUserNameInCookie(req);
             try {
-                UserAccount user = DBUtils.findUser(conn, userName);
+                UserAccount user = DBUtils.findClient(conn, userName);
                 MyUtils.storeLoginedUser(session, user);
             } catch (SQLException e) {
                 e.printStackTrace();

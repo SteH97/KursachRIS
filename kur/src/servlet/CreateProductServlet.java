@@ -29,11 +29,8 @@ public class CreateProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Error1");
         HttpSession httpSession = request.getSession();
-        System.out.println("Error2");
         Admin admin = MyUtils.getLoginedAdmin(httpSession);
-        System.out.println("Error3");
         if(admin == null) {
             response.sendRedirect(request.getContextPath() + "/login");
         } else if(admin != null) {
@@ -90,12 +87,11 @@ public class CreateProductServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getServletContext()
                     .getRequestDispatcher("/WEB-INF/views/createProductView.jsp");
             dispatcher.forward(request, response);
-        }
-        // Если все хорошо.
-        // Redirect (перенаправить) к странице со списком продуктов.
-        else {
-            response.sendRedirect(request.getContextPath() + "/productList");
+        } else {
+            request.setAttribute("createSuccess", "Успешное добавление");
+            RequestDispatcher dispatcher //
+                    = this.getServletContext().getRequestDispatcher("/WEB-INF/views/createProductList.jsp");
+            dispatcher.forward(request, response);
         }
     }
-
 }

@@ -17,19 +17,19 @@
 <jsp:include page="_header.jsp"></jsp:include>
 <jsp:include page="_menu.jsp"></jsp:include>
 
-<h3>Login Page</h3>
+<h3>Авторизация</h3>
 <p style="color: red;">${errorString}</p>
 
 
-<form method="POST" action="${pageContext.request.contextPath}/login" var="clients">
+<form method="POST" action="${pageContext.request.contextPath}/login">
     <table border="0">
         <tr>
             <td>User Name</td>
-            <td><input type="text" name="userName" value= "${clients.userName}" /> </td>
+            <td><input type="text" name="userName"/> </td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="text" name="password" value= "${clients.password}" /> </td>
+            <td><input type="password" name="password"/> </td>
         </tr>
         <tr>
             <td>Remember me</td>

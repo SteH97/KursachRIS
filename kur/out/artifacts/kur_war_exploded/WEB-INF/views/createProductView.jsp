@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Create Product</title>
+    <title>Добавление продукта</title>
 </head>
 <body>
 
@@ -23,6 +23,7 @@
 <h3>Create Product</h3>
 
 <p style="color: red;">${errorString}</p>
+<p style="color: red;">${createSuccess}</p>
 
 <form method="POST" action="${pageContext.request.contextPath}/createProduct">
     <table border="0">
@@ -49,7 +50,7 @@
         <tr>
             <td colspan="2">
                 <input type="submit" value="Submit" />
-                <a href="productList">Cancel</a>
+                <a href="${pageContext.request.contextPath}/adminServlet">Cancel</a>
             </td>
         </tr>
     </table>

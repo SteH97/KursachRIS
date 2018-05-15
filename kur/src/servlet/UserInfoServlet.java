@@ -43,8 +43,9 @@ public class UserInfoServlet extends HttpServlet {
             request.setAttribute("user", loginedUser);
             Clients client = DBUtils.queryClient(conn,loginedUser.getUserName());
             request.setAttribute("client",client);
-            // Если пользователь уже вошел в систему (login), то forward (перенаправить) к странице
-            // /WEB-INF/views/userInfoView.jsp
+            request.setAttribute("nameHeader","Персональные данные");
+            request.setAttribute("typeOperationUser","personalData");
+
             RequestDispatcher dispatcher //
                     = this.getServletContext().getRequestDispatcher("/WEB-INF/views/userInfoView.jsp");
             dispatcher.forward(request, response);
