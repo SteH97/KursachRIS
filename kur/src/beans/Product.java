@@ -3,15 +3,21 @@ package beans;
 public class Product {
 
     private int id_product;
+    private int id_order;
     private String type;
     private String brand;
     private String name_pr;
     private int quantity;
     private int rating;
     private float cost;
+    private String status;
 
     public Product() {
 
+    }
+
+    public Product(int id_product){
+        this.id_product = id_product;
     }
 
     public Product(int quantity,float cost) {
@@ -19,10 +25,24 @@ public class Product {
         this.cost = cost;
     }
 
+    public Product(int id_order,String type, String brand,String name_pr,String status,int quantity,int rating,float cost) {
+        this.id_order = id_order;
+        this.type = type;
+        this.brand = brand;
+        this.name_pr = name_pr;
+        this.status = status;
+        this.quantity = quantity;
+        this.rating = rating;
+        this.cost = cost;
+    }
+
+
+
     public Product(String type, String brand,String name_pr,int quantity,float cost) {
         this.type = type;
         this.brand = brand;
         this.name_pr = name_pr;
+        this.rating = rating;
         this.quantity = quantity;
         this.cost = cost;
     }
@@ -97,5 +117,13 @@ public class Product {
 
     public float getCost() {
         return cost;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getId_order() {
+        return id_order;
     }
 }

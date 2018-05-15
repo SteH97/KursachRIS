@@ -66,7 +66,11 @@ public class LoginServlet extends HttpServlet {
                 user = DBUtils.findUser(conn, userName, password);
                 admin = DBUtils.findAdmin(conn,userName,password);
 //                System.out.println(admin.getLogin() + " " + admin.getPassword());
-
+//                if(user.getUserName().equals("")){
+//                    errorString = "Неправильный логин";
+//                } else if(user.getPassword().equals("")){
+//                    errorString = "Неправильный пароль";
+//                }
                 if (user == null && admin == null) {
                     hasError = true;
                     errorString = "User Name or password invalid";
@@ -82,9 +86,6 @@ public class LoginServlet extends HttpServlet {
         // В случае, если есть ошибка,
         // forward (перенаправить) к /WEB-INF/views/login.jsp
         if (hasError) {
-            user = new UserAccount();
-            user.setUserName(userName);
-            user.setPassword(password);
 
             // Сохранить информацию в request attribute перед forward.
             request.setAttribute("errorString", errorString);

@@ -1022,7 +1022,6 @@
       <Position>1</Position>
       <DataType>int(3)|0</DataType>
       <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="253" parent="235" name="id_product">
@@ -1031,10 +1030,9 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="254" parent="235" name="id_client">
+    <column id="254" parent="235" name="login">
       <Position>3</Position>
-      <DataType>int(3)|0</DataType>
-      <NotNull>1</NotNull>
+      <DataType>varchar(45)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="255" parent="235" name="status">
@@ -1043,28 +1041,28 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="256" parent="235" name="id_product">
+    <column id="256" parent="235" name="quantity">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="257" parent="235" name="id_product">
       <ColNames>id_product</ColNames>
     </index>
-    <index id="257" parent="235" name="id_client">
-      <ColNames>id_client</ColNames>
+    <index id="258" parent="235" name="orders_clients_login_fk">
+      <ColNames>login</ColNames>
     </index>
-    <key id="258" parent="235" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id_order</ColNames>
-      <Primary>1</Primary>
-    </key>
     <foreign-key id="259" parent="235" name="orders_ibfk_1">
       <ColNames>id_product</ColNames>
       <RefSchemaName>online_shop</RefSchemaName>
       <RefTableName>products</RefTableName>
       <RefColNames>id_product</RefColNames>
     </foreign-key>
-    <foreign-key id="260" parent="235" name="orders_ibfk_2">
-      <ColNames>id_client</ColNames>
+    <foreign-key id="260" parent="235" name="orders_clients_login_fk">
+      <ColNames>login</ColNames>
       <RefSchemaName>online_shop</RefSchemaName>
       <RefTableName>clients</RefTableName>
-      <RefColNames>id_client</RefColNames>
+      <RefColNames>login</RefColNames>
     </foreign-key>
     <column id="261" parent="236" name="id_product">
       <Position>1</Position>

@@ -38,7 +38,7 @@ public class ProductListServlet extends HttpServlet {
             e.printStackTrace();
             errorString = e.getMessage();
         }
-        // Сохранить информацию в request attribute перед тем как forward к views.
+
         request.setAttribute("errorString", errorString);
         request.setAttribute("productList", list);
 

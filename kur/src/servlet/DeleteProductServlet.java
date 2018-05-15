@@ -46,7 +46,7 @@ public class DeleteProductServlet extends HttpServlet {
         String id_product = req.getParameter("id_product");
         String errorString = null;
 
-        if(toIntId(id_product)) {
+        if(MyUtils.toIntId(id_product)) {
             try {
                 DBUtils.deleteProduct(conn, id_product);
             } catch (SQLException e) {
@@ -66,25 +66,11 @@ public class DeleteProductServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getServletContext()
                     .getRequestDispatcher("/WEB-INF/views/deleteProductErrorView.jsp");
             dispatcher.forward(req, resp);
-        }
-        // Если все хорошо.
-        // Redirect (перенаправить) к странице со списком продуктов.
-        else {
+        } else {
             req.setAttribute("deleteSuccess", "Успешное удаление");
             RequestDispatcher dispatcher //
                     = this.getServletContext().getRequestDispatcher("/WEB-INF/views/deleteProductErrorView.jsp");
-
             dispatcher.forward(req, resp);
-        }
-    }
-
-    // Проверка на коррекстность ввода номера
-    private boolean toIntId(String id) {
-        try {
-            Integer.parseInt(id);
-            return true;
-        } catch (Exception e) {
-            return false;
         }
     }
 }

@@ -21,10 +21,6 @@ public class MySQLConnUtils {
             ClassNotFoundException {
 
         Class.forName("com.mysql.jdbc.Driver");
-
-        // Структура URL Connection для MySQL:
-        // Например:kurs
-        // jdbc:mysql://localhost:3306/simplehr
         String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
 
         Connection conn = DriverManager.getConnection(connectionURL, userName,

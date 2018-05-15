@@ -55,7 +55,7 @@ public class EditProductServlet extends HttpServlet {
         String quantity = request.getParameter("quantity");
         String cost = request.getParameter("cost");
         System.out.println(id);
-        if(toIntId(id)) {
+        if(MyUtils.toIntId(id)) {
             try {
                 DBUtils.updateProduct(conn, id, quantity, cost);
             } catch (SQLException e) {
@@ -72,25 +72,12 @@ public class EditProductServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getServletContext()
                     .getRequestDispatcher("/WEB-INF/views/editProductView.jsp");
             dispatcher.forward(request, response);
-        }
-        // Если все хорошо.
-        // Redirect к странице со списком продуктов.
-        else {
+        } else {
             request.setAttribute("updateSuccess", "Успешное редактирование");
             RequestDispatcher dispatcher //
                     = this.getServletContext().getRequestDispatcher("/WEB-INF/views/editProductView.jsp");
 
             dispatcher.forward(request, response);
-        }
-    }
-
-    // Проверка на коррекстность ввода номера
-    private boolean toIntId(String id) {
-        try {
-            Integer.parseInt(id);
-            return true;
-        } catch (Exception e) {
-            return false;
         }
     }
 }

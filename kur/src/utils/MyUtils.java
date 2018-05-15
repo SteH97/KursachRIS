@@ -92,4 +92,13 @@ public class MyUtils {
         response.addCookie(cookieUserName);
     }
 
+    // Проверка на коррекстность ввода номера
+    public static boolean toIntId(String id) {
+        try {
+            Integer.parseInt(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
